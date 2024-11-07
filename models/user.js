@@ -1,6 +1,10 @@
 /** User class for message.ly */
 
+const db = require("../db");
+const bcrypt = require("bcrypt");
+const ExpressError = require("../expressError");
 
+const { BCRYPT_WORK_FACTOR } = require("../config");
 
 /** User of the site. */
 
