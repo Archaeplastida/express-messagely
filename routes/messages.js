@@ -1,3 +1,5 @@
+const { route } = require("../app");
+
 const Router = require("express").Router, router = new Router(), Message = require("../models/message"), { ensureLoggedIn } = require("../middleware/auth"), ExpressError = require("../expressError");
 
 /** GET /:id - get detail of message.
@@ -34,7 +36,7 @@ router.get("/:id", ensureLoggedIn, async (req, res, next) => {
  *
  **/
 
-router.post("/", async (res, req, next) => {
+router.post("/", ensureLoggedIn, async (res, req, next) => {
     try {
         let msg = await Message.create({ from_username: req.user.username, to_username: req.body.to_username, body: req.body.body });
         return res.json({ message: msg });
