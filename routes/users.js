@@ -6,6 +6,14 @@ const Router = require("express").Router, User = require("../models/user"), {ens
  *
  **/
 
+router.get("/", ensureLoggedIn, async (req, res, next) => {
+    try {
+        let users = await User.all();
+        return res.json({users});
+    } catch (err) {
+        return next(err);
+    }
+})
 
 /** GET /:username - get detail of users.
  *
