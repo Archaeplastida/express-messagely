@@ -1,3 +1,5 @@
+const Router = require("express").Router, User = require("../models/user"), {ensureLoggedIn, ensureCorrectUser} = require("../middleware/auth");
+
 /** GET / - get list of users.
  *
  * => {users: [{username, first_name, last_name, phone}, ...]}
