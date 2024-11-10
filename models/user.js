@@ -53,7 +53,7 @@ class User {
    *          last_login_at } */
 
   static async get(username) {
-    const result = await.db.query(`SELECT username, first_name, last_name, phone, join_at, last_login_at FROM users WHERE username = $1`, [username]);
+    const result = await db.query(`SELECT username, first_name, last_name, phone, join_at, last_login_at FROM users WHERE username = $1`, [username]);
     if(!result.rows[0]) throw new ExpressError(`No such user: ${username}, 404`);
    }
 
@@ -65,7 +65,10 @@ class User {
    *   {username, first_name, last_name, phone}
    */
 
-  static async messagesFrom(username) { }
+  static async messagesFrom(username) {
+    const result = await db.query(`SELECT messages.id, messages.to_username, users.first_name, users.last_name, users.phone, messages.body, messages.sent_at, messages.read_at FROM messages JOIN users ON messages.to_username = users.username WHERE from_username = $1`, [username]);
+    return result.rows.map(m => ({id: m.id, to_user: {username: m.to_username, first_name: m.first_name, last_name: m.last_name, phone: m.phone}, body: m.body, sent_at: m.sent_at, read_at: m.read_at}));
+   }
 
   /** Return messages to this user.
    *
