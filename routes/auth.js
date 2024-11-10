@@ -18,7 +18,7 @@ const jwt = require("jsonwebtoken"), Router = require("express").Router, router 
 //logs user in if correct username and password is given, then returning a token.
 router.post("/login", async (req, res, next) => {
     try {
-        let { usernmae, password } = req.body;
+        let { username, password } = req.body;
         if (await User.authenticate(username, password)) {
             let token = jwt.sign({ username }, SECRET_KEY);
             User.updateLoginTimestamp(username);
