@@ -52,7 +52,10 @@ class User {
    *          join_at,
    *          last_login_at } */
 
-  static async get(username) { }
+  static async get(username) {
+    const result = await.db.query(`SELECT username, first_name, last_name, phone, join_at, last_login_at FROM users WHERE username = $1`, [username]);
+    if(!result.rows[0]) throw new ExpressError(`No such user: ${username}, 404`);
+   }
 
   /** Return messages from this user.
    *
