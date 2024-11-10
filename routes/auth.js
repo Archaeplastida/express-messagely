@@ -11,3 +11,6 @@
  *
  *  Make sure to update their last-login!
  */
+
+
+const jwt = require("jsonwebtoken"), Router = require("express").Router, router = new Router(), User = require("../models/user"), {SECRET_KEY} = require("../config"), ExpressError = require("../expressError");
