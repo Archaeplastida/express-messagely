@@ -14,3 +14,18 @@
 
 
 const jwt = require("jsonwebtoken"), Router = require("express").Router, router = new Router(), User = require("../models/user"), {SECRET_KEY} = require("../config"), ExpressError = require("../expressError");
+
+router.post("/login", async (req, res, next) => {
+    try{
+        let {usernmae, password} = req.body;
+        if(await User.authenticate(username, password)) {
+            let token = jwt.sign({username}, SECRET_KEY);
+            User.updateLoginTimestamp(username);
+            return res.json({token});
+        } else {
+            throw new ExpressError("Invalid username/password", 400);
+        }
+    } catch (err) {
+        return next(err);
+    }
+})
